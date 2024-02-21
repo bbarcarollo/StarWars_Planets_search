@@ -8,6 +8,7 @@ type PlanetsProviderProps = {
 
 function PlanetsProvider({ children }: PlanetsProviderProps) {
   const [planetsList, setPlanetsList] = useState<PlanetsType[]>([]);
+  const [planetsName, setPlanetsName] = useState<PlanetsType[]>([]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -20,12 +21,24 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
         delete planet.residents;
         return planet;
       });
-      return setPlanetsList(dataSansResidents);
+      setPlanetsList(dataSansResidents);
+      setPlanetsName(dataSansResidents);
     };
     fetchPlanets();
   }, []);
 
-  const value: SWPlanetsType = { planetsList };
+  const filterPlanetsByName = (searchValue: string) => {
+    if (searchValue === '') {
+      setPlanetsName(planetsList);
+      return;
+    }
+    const newPlanetName = planetsList
+      .filter((planet) => planet.name
+        .includes(searchValue.toLowerCase()));
+    setPlanetsName(newPlanetName);
+  };
+
+  const value: SWPlanetsType = { planetsName, filterPlanetsByName };
 
   return (
     <SWContext.Provider value={ value }>

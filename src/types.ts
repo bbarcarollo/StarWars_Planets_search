@@ -15,5 +15,6 @@ export type PlanetsType = {
 };
 
 export type SWPlanetsType = {
-  planetsList: PlanetsType[],
+  planetsName: PlanetsType[],
+  filterPlanetsByName: (nameFilter: string) => void,
 };
