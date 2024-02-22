@@ -10,10 +10,13 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
   const [planetsList, setPlanetsList] = useState<PlanetsType[]>([]);
   const [planetsName, setPlanetsName] = useState<PlanetsType[]>([]);
   const [filterByQuantity, setFilterByQuantity] = useState({
-    columns: 'population',
+    column: 'population',
     comparison: 'maior que',
     value: 0,
   });
+  const [columns, setColumns] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -44,28 +47,31 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
   };
 
   const comparingValues = () => {
-    const { comparison, value, columns } = filterByQuantity;
+    const { comparison, value, column } = filterByQuantity;
     console.log(comparison, value);
 
     switch (comparison) {
       case 'maior que':
         return planetsName
           .filter((planet: any) => (
-            Number(planet[columns]) > value));
+            Number(planet[column]) > value));
       case 'menor que':
         return planetsName
           .filter((planet: any) => (
-            Number(planet[columns]) < value));
+            Number(planet[column]) < value));
       default:
         return planetsName
           .filter((planet: any) => (
-            Number(planet[columns]) === Number(value)));
+            Number(planet[column]) === Number(value)));
     }
   };
 
-  const addFilterComparison = () => {
+  const addFilterComparison = (filterQuantity: string) => {
     const filter = comparingValues();
+    const newcolumns = columns.filter((coluna) => coluna !== filterQuantity);
     setPlanetsName(filter);
+    setColumns(newcolumns);
+    setFilterByQuantity({ ...filterByQuantity, column: columns[0] });
   };
 
   const value: SWPlanetsType = {
@@ -73,6 +79,7 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     filterPlanetsByName,
     filterByQuantity,
     setFilterByQuantity,
+    columns,
     addFilterComparison };
 
   return (

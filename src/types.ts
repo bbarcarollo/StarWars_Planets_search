@@ -15,7 +15,7 @@ export type PlanetsType = {
 };
 
 export type FilterQuantityType = {
-  columns: string,
+  column: string,
   comparison: string,
   value: number,
 };
@@ -25,5 +25,6 @@ export type SWPlanetsType = {
   filterPlanetsByName: (nameFilter: string) => void,
   filterByQuantity: FilterQuantityType,
   setFilterByQuantity: any,
-  addFilterComparison: (filterQuantity: FilterQuantityType) => void,
+  columns: string [],
+  addFilterComparison: (filterQuantity: string) => void,
 };

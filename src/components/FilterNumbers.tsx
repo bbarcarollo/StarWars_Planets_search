@@ -1,10 +1,6 @@
 import { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
-const columns = [
-  'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-];
-
 const comparison = [
   'maior que', 'menor que', 'igual a',
 ];
@@ -14,10 +10,11 @@ function FilterNumbers() {
     filterByQuantity,
     addFilterComparison,
     setFilterByQuantity,
+    columns,
   } = useContext(SWContext);
 
   const handleSubmit = () => {
-    addFilterComparison(filterByQuantity);
+    addFilterComparison(filterByQuantity.column);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
@@ -30,9 +27,9 @@ function FilterNumbers() {
       <select
         id="column"
         name="column"
-        value={ filterByQuantity.columns }
+        value={ filterByQuantity.column }
         onChange={ ({ target }) => setFilterByQuantity(
-          { ...filterByQuantity, columns: target.value },
+          { ...filterByQuantity, column: target.value },
         ) }
         data-testid="column-filter"
         required
