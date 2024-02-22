@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import SWContext from '../context/SWContext';
 
-function Filter() {
+function FilterName() {
   const { filterPlanetsByName } = useContext(SWContext);
   const [nameFilter, setNameFilter] = useState('');
 
@@ -23,4 +23,4 @@ function Filter() {
   );
 }
 
-export default Filter;
+export default FilterName;

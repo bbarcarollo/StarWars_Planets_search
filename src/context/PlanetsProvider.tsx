@@ -9,6 +9,11 @@ type PlanetsProviderProps = {
 function PlanetsProvider({ children }: PlanetsProviderProps) {
   const [planetsList, setPlanetsList] = useState<PlanetsType[]>([]);
   const [planetsName, setPlanetsName] = useState<PlanetsType[]>([]);
+  const [filterByQuantity, setFilterByQuantity] = useState({
+    columns: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -38,7 +43,37 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     setPlanetsName(newPlanetName);
   };
 
-  const value: SWPlanetsType = { planetsName, filterPlanetsByName };
+  const comparingValues = () => {
+    const { comparison, value, columns } = filterByQuantity;
+    console.log(comparison, value);
+
+    switch (comparison) {
+      case 'maior que':
+        return planetsName
+          .filter((planet: any) => (
+            Number(planet[columns]) > value));
+      case 'menor que':
+        return planetsName
+          .filter((planet: any) => (
+            Number(planet[columns]) < value));
+      default:
+        return planetsName
+          .filter((planet: any) => (
+            Number(planet[columns]) === Number(value)));
+    }
+  };
+
+  const addFilterComparison = () => {
+    const filter = comparingValues();
+    setPlanetsName(filter);
+  };
+
+  const value: SWPlanetsType = {
+    planetsName,
+    filterPlanetsByName,
+    filterByQuantity,
+    setFilterByQuantity,
+    addFilterComparison };
 
   return (
     <SWContext.Provider value={ value }>

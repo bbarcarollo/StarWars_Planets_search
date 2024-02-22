@@ -1,14 +1,15 @@
 import { useContext } from 'react';
 import SWContext from '../context/SWContext';
 import { PlanetsType } from '../types';
-import Filter from './Filter';
+import FilterName from './FilterName';
+import FilterNumbers from './FilterNumbers';
 
 function Table() {
   const { planetsName } = useContext(SWContext);
 
   const tableBody = planetsName.map((planet: PlanetsType) => (
     <tr key={ planet.name }>
-      <td>{planet.name}</td>
+      <td data-testid="planet-name">{planet.name}</td>
       <td>{planet.rotation_period}</td>
       <td>{planet.orbital_period}</td>
       <td>{planet.diameter}</td>
@@ -26,7 +27,8 @@ function Table() {
 
   return (
     <section>
-      <Filter />
+      <FilterName />
+      <FilterNumbers />
       <table>
         <thead>
           <tr>
