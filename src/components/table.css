@@ -1,0 +1,50 @@
+.tableStyle {
+  border: 1px solid gray;
+  height: 403px;
+  left: 38px;
+  top: 1004px;
+  width: 1212px;
+
+}
+
+.tableStyle thead {
+  border: 1px solid black;
+  height: 70px;
+  left: 38px;
+  top: 900px;
+  width: 1212px;
+}
+
+.tableStyle tbody {
+  color: #aeaeae;
+  height: 340.25px;
+  left: 65.52px;
+  top: 1058.38px;
+  width: 1167.69px;
+}
+
+.tableStyle th {
+  background: #2e3035;
+  border: 1px;
+  color: white;
+  height: 50px;
+  left: 139.61px;
+  padding: 5px;
+  text-align: center;
+  top: 900px;
+  width: 85.57px;
+  word-wrap: break-word;
+}
+
+.tableStyle td {
+  border: 0 , 0 , 1px , 0;
+  border-bottom: 1px solid #828282;
+  border-radius: 0 0 1px;
+  height: 50px;
+  left: 895px;
+  padding: 5px;
+  text-align: center;
+  top: 1270px;
+  width: 332px;
+}
+

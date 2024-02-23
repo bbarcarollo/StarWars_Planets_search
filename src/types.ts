@@ -15,7 +15,8 @@ export type PlanetsType = {
 };
 
 export type FilterQuantityType = {
-  column: string,
+  column: 'population'
+  | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water',
   comparison: string,
   value: number,
 };
@@ -25,6 +26,9 @@ export type SWPlanetsType = {
   filterPlanetsByName: (nameFilter: string) => void,
   filterByQuantity: FilterQuantityType,
   setFilterByQuantity: any,
-  columns: string [],
+  appliedFilters: FilterQuantityType[],
+  defaultNoFilters: any,
+  removeFilter: any,
+  columns: FilterQuantityType['column'][],
   addFilterComparison: (filterQuantity: string) => void,
 };

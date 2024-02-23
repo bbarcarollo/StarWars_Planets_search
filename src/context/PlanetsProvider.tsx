@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SWContext from './SWContext';
-import { PlanetsType, SWPlanetsType } from '../types';
+import { FilterQuantityType, PlanetsType, SWPlanetsType } from '../types';
 
 type PlanetsProviderProps = {
   children: React.ReactNode;
@@ -9,14 +9,15 @@ type PlanetsProviderProps = {
 function PlanetsProvider({ children }: PlanetsProviderProps) {
   const [planetsList, setPlanetsList] = useState<PlanetsType[]>([]);
   const [planetsName, setPlanetsName] = useState<PlanetsType[]>([]);
-  const [filterByQuantity, setFilterByQuantity] = useState({
+  const [filterByQuantity, setFilterByQuantity] = useState<FilterQuantityType>({
     column: 'population',
     comparison: 'maior que',
     value: 0,
   });
-  const [columns, setColumns] = useState([
+  const [columns, setColumns] = useState<FilterQuantityType['column'][]>([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
+  const [appliedFilters, setAppliedFilters] = useState<FilterQuantityType[]>([]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -48,20 +49,19 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
 
   const comparingValues = () => {
     const { comparison, value, column } = filterByQuantity;
-    console.log(comparison, value);
 
     switch (comparison) {
       case 'maior que':
         return planetsName
-          .filter((planet: any) => (
+          .filter((planet) => (
             Number(planet[column]) > value));
       case 'menor que':
         return planetsName
-          .filter((planet: any) => (
+          .filter((planet) => (
             Number(planet[column]) < value));
       default:
         return planetsName
-          .filter((planet: any) => (
+          .filter((planet) => (
             Number(planet[column]) === Number(value)));
     }
   };
@@ -72,6 +72,36 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     setPlanetsName(filter);
     setColumns(newcolumns);
     setFilterByQuantity({ ...filterByQuantity, column: columns[0] });
+    setAppliedFilters([...appliedFilters, filterByQuantity]);
+  };
+
+  const defaultNoFilters = () => {
+    setAppliedFilters([]);
+    setColumns(columns);
+    setPlanetsName(planetsList);
+  };
+
+  const filterInAction = (selectedFilters: FilterQuantityType[]) => {
+    const filteredPlanets = planetsList.filter((planet) => (
+      selectedFilters.every(({ column, comparison, value }) => {
+        switch (comparison) {
+          case 'maior que':
+            return Number(planet[column]) > Number(value);
+          case 'menor que':
+            return Number(planet[column]) < Number(value);
+          default:
+            return Number(planet[column]) === Number(value);
+        }
+      })
+    ));
+    return filteredPlanets;
+  };
+
+  const removeFilter = (usedFilter: any) => {
+    const selectedFilters = appliedFilters.filter(({ column }) => column !== usedFilter);
+    setAppliedFilters(selectedFilters);
+    setColumns([...columns, usedFilter]);
+    setPlanetsName(filterInAction(selectedFilters));
   };
 
   const value: SWPlanetsType = {
@@ -80,7 +110,11 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     filterByQuantity,
     setFilterByQuantity,
     columns,
-    addFilterComparison };
+    defaultNoFilters,
+    addFilterComparison,
+    appliedFilters,
+    removeFilter,
+  };
 
   return (
     <SWContext.Provider value={ value }>

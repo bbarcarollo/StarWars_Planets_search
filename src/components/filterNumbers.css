@@ -1,0 +1,57 @@
+.filters {
+  align-items: center;
+  border-radius: 5px;
+  display: flex;
+  height: 180px;
+  justify-content: space-around;
+  left: 78px;
+  top: 761px;
+  width: 1123px;
+
+}
+
+.filter-btn {
+  background-color: #fae60a;
+  border: 1px solid #fae60a;
+  height: 50px;
+  left: 592px;
+  top: 200px;
+  width: 91px;
+}
+
+.operator {
+  border: 1px solid white;
+  height: 20px;
+  left: 78px;
+  top: 200px;
+  width: 91px;
+}
+
+.column {
+  border: 1px solid white;
+  height: 20px;
+  left: 78px;
+  top: 874px;
+  width: 134px;
+
+}
+
+.entered-value {
+  height: 20px;
+  left: 78px;
+  top: 200px;
+  width: 91px;
+}
+
+.remove1Filter {
+  align-items: center;
+  display: flex;
+  height: 20px;
+  left: 78px;
+  padding: 3px;
+  top: 974px;
+}
+
+.btnRemove {
+  color: #fae60a;
+}

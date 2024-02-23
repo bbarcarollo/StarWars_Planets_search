@@ -3,25 +3,26 @@ import SWContext from '../context/SWContext';
 import { PlanetsType } from '../types';
 import FilterName from './FilterName';
 import FilterNumbers from './FilterNumbers';
+import './table.css';
 
 function Table() {
   const { planetsName } = useContext(SWContext);
 
   const tableBody = planetsName.map((planet: PlanetsType) => (
     <tr key={ planet.name }>
-      <td data-testid="planet-name">{planet.name}</td>
-      <td>{planet.rotation_period}</td>
-      <td>{planet.orbital_period}</td>
-      <td>{planet.diameter}</td>
-      <td>{planet.climate}</td>
-      <td>{planet.gravity}</td>
-      <td>{planet.terrain}</td>
-      <td>{planet.surface_water}</td>
-      <td>{planet.population}</td>
-      <td>{planet.films}</td>
-      <td>{planet.created}</td>
-      <td>{planet.edited}</td>
-      <td>{planet.url}</td>
+      <td className="tableStyle" data-testid="planet-name">{planet.name}</td>
+      <td className="tableStyle">{planet.rotation_period}</td>
+      <td className="tableStyle">{planet.orbital_period}</td>
+      <td className="tableStyle">{planet.diameter}</td>
+      <td className="tableStyle">{planet.climate}</td>
+      <td className="tableStyle">{planet.gravity}</td>
+      <td className="tableStyle">{planet.terrain}</td>
+      <td className="tableStyle">{planet.surface_water}</td>
+      <td className="tableStyle">{planet.population}</td>
+      <td className="tableStyle">{planet.films}</td>
+      <td className="tableStyle">{planet.created}</td>
+      <td className="tableStyle">{planet.edited}</td>
+      <td className="tableStyle ">{planet.url}</td>
     </tr>
   ));
 
@@ -29,8 +30,8 @@ function Table() {
     <section>
       <FilterName />
       <FilterNumbers />
-      <table>
-        <thead>
+      <table className="tableStyle">
+        <thead className="tableStyle">
           <tr>
             <th>Name</th>
             <th>Rotation Period</th>
@@ -47,7 +48,7 @@ function Table() {
             <th>URL</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tableStyle">
           {tableBody}
         </tbody>
       </table>
