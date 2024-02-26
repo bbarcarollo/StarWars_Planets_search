@@ -4,7 +4,7 @@ import Table from './components/Table';
 
 function App() {
   return (
-    <section className="App">
+    <section className="App-Section">
       <h1>Projeto Star Wars - Trybe</h1>
       <PlanetsProvider>
         <Table />

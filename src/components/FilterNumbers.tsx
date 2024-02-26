@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { FaTrashCan } from 'react-icons/fa6';
 import SWContext from '../context/SWContext';
 import './filterNumbers.css';
 
@@ -27,16 +28,17 @@ function FilterNumbers() {
   return (
     <form>
       <div className="filters">
+
         <label htmlFor="column">Ordenar</label>
         <select
           className="column"
           id="column"
           name="column"
           value={ filterByQuantity.column }
+          data-testid="column-filter"
           onChange={ ({ target }) => setFilterByQuantity(
             { ...filterByQuantity, column: target.value },
           ) }
-          data-testid="column-filter"
           required
         >
           {columns.map((column) => (
@@ -90,11 +92,11 @@ function FilterNumbers() {
           Filter
         </button>
 
-        <label htmlFor="column">Ordenar</label>
+        <label htmlFor="column2">Ordenar</label>
         <select
           className="operator"
-          id="column"
-          name="column"
+          id="column2"
+          name="column2"
           data-testid="column-sort"
           required
         >
@@ -154,7 +156,7 @@ function FilterNumbers() {
               type="button"
               onClick={ () => removeFilter(filter.column) }
             >
-              x
+              <FaTrashCan />
             </button>
           </div>
         ))}
