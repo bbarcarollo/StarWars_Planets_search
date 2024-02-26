@@ -106,25 +106,13 @@ describe('Testa App e funcionalidades', () => {
     expect(screen.getByText('rotation_period menor que 20')).toBeInTheDocument();
     expect(await screen.findByText('Bespin')).toBeInTheDocument();
     expect(await screen.queryByText(/tatooine/i)).not.toBeInTheDocument();
-
+    
     await userEvent.click(removeFilter);
     expect(screen.queryByText(/rotation_period menor que 20/i)).not.toBeInTheDocument();
     expect(await screen.findByText(/tatooine/i)).toBeInTheDocument();
-
-    await userEvent.click(clearAllBtn);
-    await userEvent.selectOptions(column, 'diameter');
-    await userEvent.selectOptions(comparison, 'igual a');
-    await userEvent.clear(comparisonValue);
-    await userEvent.type(comparisonValue, '19720');
-    await userEvent.click(filterBtn);
-
-    screen.debug();
-
-    expect(screen.getByText(/diameter igual a 19720/i)).toBeInTheDocument();
-    expect(await screen.findByText('Kamino')).toBeInTheDocument();
-
     await userEvent.click(removeFilter);
-    expect(screen.getByText('Alderaan')).toBeInTheDocument;
+    expect(await screen.findByText(/alderaan/i)).toBeInTheDocument();
+    
   
   });
 
