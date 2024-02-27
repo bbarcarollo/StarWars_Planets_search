@@ -6,6 +6,11 @@ import './filterNumbers.css';
 const comparison = [
   'maior que', 'menor que', 'igual a',
 ];
+
+const sortColumn = [
+  'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+];
+
 function FilterNumbers() {
   const {
     filterByQuantity,
@@ -15,6 +20,9 @@ function FilterNumbers() {
     appliedFilters,
     defaultNoFilters,
     removeFilter,
+    orderPlanets,
+    sortFilter,
+    setSortFilter,
   } = useContext(SWContext);
 
   const handleSubmit = () => {
@@ -24,6 +32,8 @@ function FilterNumbers() {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     setFilterByQuantity({ ...filterByQuantity, value: (e.target.value) });
   };
+
+  const { order: { column } } = sortFilter;
 
   return (
     <form>
@@ -41,12 +51,12 @@ function FilterNumbers() {
           ) }
           required
         >
-          {columns.map((column) => (
+          {columns.map((col) => (
             <option
-              key={ column }
-              value={ column }
+              key={ col }
+              value={ col }
             >
-              {column}
+              {col}
             </option>))}
         </select>
 
@@ -56,6 +66,7 @@ function FilterNumbers() {
           name="comparison"
           id="comparison"
           data-testid="comparison-filter"
+          value={ filterByQuantity.comparison }
           onChange={ ({ target }) => setFilterByQuantity(
             { ...filterByQuantity, comparison: target.value },
           ) }
@@ -98,23 +109,30 @@ function FilterNumbers() {
           id="column2"
           name="column2"
           data-testid="column-sort"
-          required
+          value={ column }
+          onChange={ ({ target }) => setSortFilter({
+            ...sortFilter, order: { ...sortFilter.order, column: target.value },
+          }) }
         >
-          {columns.map((column) => (
+          {sortColumn.map((col) => (
             <option
-              key={ column }
-              value={ column }
+              key={ col }
+              value={ col }
             >
-              {column}
+              {col}
             </option>))}
         </select>
 
         <label>
           <input
             name="radio"
+            defaultChecked
             type="radio"
             data-testid="column-sort-input-asc"
             value="ASC"
+            onChange={ ({ target }) => setSortFilter({
+              ...sortFilter, order: { ...sortFilter.order, sort: target.value },
+            }) }
           />
           Ascendente
         </label>
@@ -125,6 +143,9 @@ function FilterNumbers() {
             type="radio"
             data-testid="column-sort-input-desc"
             value="DESC"
+            onChange={ ({ target }) => setSortFilter({
+              ...sortFilter, order: { ...sortFilter.order, sort: target.value },
+            }) }
           />
           Descendente
         </label>
@@ -133,6 +154,8 @@ function FilterNumbers() {
           className="filter-btn"
           data-testid="column-sort-button"
           type="button"
+          onClick={ orderPlanets }
+
         >
           Ordenar
         </button>
@@ -153,6 +176,7 @@ function FilterNumbers() {
             <button
               className="btnRemove"
               aria-label="Remover filtro"
+              data-testid="removeFilter"
               type="button"
               onClick={ () => removeFilter(filter.column) }
             >

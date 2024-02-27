@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import SWContext from './SWContext';
-import { FilterQuantityType, PlanetsType, SWPlanetsType } from '../types';
+import { FilterQuantityType,
+  PlanetsType, SWPlanetsType, SortFilterType } from '../types';
 
 type PlanetsProviderProps = {
   children: React.ReactNode;
@@ -18,6 +19,9 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
   const [appliedFilters, setAppliedFilters] = useState<FilterQuantityType[]>([]);
+  const [sortFilter, setSortFilter] = useState<SortFilterType>({
+    order: { column: 'population', sort: 'ASC' },
+  });
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -104,6 +108,22 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     setPlanetsName(filterInAction(selectedFilters));
   };
 
+  const orderPlanets = () => {
+    const { order: { column, sort } } = sortFilter;
+    const planetsNotKnown = planetsName.filter((planet) => planet[column] === 'unknown');
+
+    const sortPlanets = planetsName.filter(
+      (planet) => planet[column] !== 'unknown',
+    ).sort((a, b) => {
+      if (a[column] === 'unknown') return -1;
+      if (b[column] === 'unknown') return -1;
+      const sortedPlanetsAsc = Number(a[column]) - Number(b[column]);
+      const sortedPlanetsDesc = Number(b[column]) - Number(a[column]);
+      return sort === 'ASC' ? sortedPlanetsAsc : sortedPlanetsDesc;
+    });
+    setPlanetsName([...sortPlanets, ...planetsNotKnown]);
+  };
+
   const value: SWPlanetsType = {
     planetsName,
     filterPlanetsByName,
@@ -113,6 +133,9 @@ function PlanetsProvider({ children }: PlanetsProviderProps) {
     defaultNoFilters,
     addFilterComparison,
     appliedFilters,
+    setSortFilter,
+    sortFilter,
+    orderPlanets,
     removeFilter,
   };
 

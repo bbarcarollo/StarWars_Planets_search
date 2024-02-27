@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   height: 1496px;
   left: -5286px;
@@ -7,7 +12,6 @@
 }
 
 .App-Section {
-  background-image: url('./img/fundo-star-wars\ \(1\)\ 1.png');
   background-size: cover;
   height: 832px;
   left: 632px;

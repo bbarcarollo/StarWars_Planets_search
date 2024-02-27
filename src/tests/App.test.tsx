@@ -7,16 +7,7 @@ import { swPlanets } from './mockSwPlanets';
 import { vi } from 'vitest';
 
 
-describe('Testa App e funcionalidades', () => {
-  // beforeEach(() => {
-  //   // vi.fn(() => Promise.resolve({status: 200, ok: true, json: () => Promise.resolve(swPlanets)}))
-  //   vi.spyOn(global, 'fetch').mockResolvedValueOnce(({
-  //     status: 200, 
-  //     ok: true, 
-  //     json: () => Promise.resolve(swPlanets),
-  //   }) as Response);
-  // });
-  
+describe('Testa App e funcionalidades', () => {  
   test('Verifica se todos os itens iniciais renderizam corretamente', () => {
     render(<PlanetsProvider><App /></PlanetsProvider>);
 
@@ -57,7 +48,7 @@ describe('Testa App e funcionalidades', () => {
   });
 
 
-  test('Verifica filtros numéricos',  async () => {
+  test('Verifica filtros comparativos',  async () => {
     vi.spyOn(global, 'fetch').mockResolvedValueOnce(({
       status: 200, 
       ok: true, 
@@ -92,7 +83,6 @@ describe('Testa App e funcionalidades', () => {
     await userEvent.type(comparisonValue, '20');
     await userEvent.click(filterBtn);
     
-    
     expect(screen.getByText('surface_water menor que 20')).toBeInTheDocument();
     expect(await screen.findByText(/tatooine/i)).toBeInTheDocument();
     
@@ -112,8 +102,38 @@ describe('Testa App e funcionalidades', () => {
     expect(await screen.findByText(/tatooine/i)).toBeInTheDocument();
     await userEvent.click(removeFilter);
     expect(await screen.findByText(/alderaan/i)).toBeInTheDocument();
-    
-  
+
+    await userEvent.clear(comparisonValue);
+
+    await userEvent.selectOptions(column, 'orbital_period');
+    await userEvent.selectOptions(comparison, 'igual a');
+    await userEvent.type(comparisonValue, '304');
+    await userEvent.click(filterBtn);
+
+    expect(await screen.findByText(/tatooine/i)).toBeInTheDocument();
+    expect(await screen.getAllByTestId('planet-name')).toHaveLength(1);
+
+    await userEvent.click(screen.getByTestId('removeFilter'));
+    expect(await screen.findByText(/tatooine/i)).toBeInTheDocument();  
+  });
+
+  test('Verifica filtro de ordenação', async () => {
+    vi.spyOn(global, 'fetch').mockResolvedValueOnce(({
+      status: 200, 
+      ok: true, 
+      json: async () => swPlanets,
+    }) as Response);
+    render(<PlanetsProvider><App /></PlanetsProvider>)
+
+    const ordenador =  screen.getByTestId('column-sort');
+    const ascendente = screen.getByText(/ascendente/i);
+    const descendente = screen.getByText(/descendente/i);
+    const sortBtn = screen.getByRole('button', {  name: /ordenar/i});
+
+    expect(ordenador).toBeInTheDocument();
+    expect(ascendente).toBeInTheDocument();
+    expect(descendente).toBeInTheDocument();
+    expect(sortBtn).toBeInTheDocument();
   });
 
 

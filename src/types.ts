@@ -21,6 +21,14 @@ export type FilterQuantityType = {
   value: number,
 };
 
+export type SortFilterType = {
+  order: {
+    column: 'population'
+    | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water',
+    sort: 'ASC' | 'DESC',
+  }
+};
+
 export type SWPlanetsType = {
   planetsName: PlanetsType[],
   filterPlanetsByName: (nameFilter: string) => void,
@@ -30,5 +38,8 @@ export type SWPlanetsType = {
   defaultNoFilters: any,
   removeFilter: any,
   columns: FilterQuantityType['column'][],
+  orderPlanets: () => void,
+  setSortFilter: any,
+  sortFilter: SortFilterType,
   addFilterComparison: (filterQuantity: string) => void,
 };
