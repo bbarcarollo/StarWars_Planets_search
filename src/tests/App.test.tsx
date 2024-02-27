@@ -134,6 +134,13 @@ describe('Testa App e funcionalidades', () => {
     expect(ascendente).toBeInTheDocument();
     expect(descendente).toBeInTheDocument();
     expect(sortBtn).toBeInTheDocument();
+
+    await userEvent.selectOptions(ordenador, 'surface_water');
+    await userEvent.click(ascendente);
+    await userEvent.click(sortBtn);
+    screen.debug();
+    
+    expect(screen.getAllByTestId('planet-name')[0]).toHaveTextContent('Bespin');
   });
 
 
